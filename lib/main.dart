@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:zitate_app/api_key.dart';
 
 void main() {
   runApp(const MainApp());
@@ -9,8 +10,8 @@ void main() {
 const quoteUri = "https://api.api-ninjas.com/v1/quotes";
 
 Future<String> getDataFromApi(String uri) async {
-  final response = await http.get(Uri.parse(uri),
-      headers: {'X-Api-Key': 'yPN0DFDi++wyGgZeLqVhJA==ldxttGjxXwtcprbP'});
+  final response =
+      await http.get(Uri.parse(uri), headers: {'X-Api-Key': myXApiKey});
 
   return response.body;
 }
