@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:zitate_app/api_key.dart';
+import 'package:zitate_app/shared/database_repository.dart';
 
 
 
@@ -25,7 +26,9 @@ Future<String> getQuote() async {
 }
 
 class QuoteScreen extends StatefulWidget {
-  const QuoteScreen({super.key});
+  const QuoteScreen({super.key, required this.repository});
+
+  final DatabaseRepository repository;
 
   @override
   State<QuoteScreen> createState() => _QuoteScreenState();
@@ -36,6 +39,7 @@ class _QuoteScreenState extends State<QuoteScreen> {
 
   void getNewQuote() async {
     quote = await getQuote();
+    
     setState(() {});
   }
 

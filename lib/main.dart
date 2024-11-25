@@ -1,21 +1,27 @@
-import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:zitate_app/api_key.dart';
 import 'package:zitate_app/features/show_quotes/quote_screen.dart';
+import 'package:zitate_app/shared/database_repository.dart';
+import 'package:zitate_app/shared/shared_preferences_repository.dart';
 
 void main() {
-  runApp(const MainApp());
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final DatabaseRepository repository = SharedPreferencesRepository();
+  
+  runApp( MainApp(repository: repository,));
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  const MainApp({super.key, required this.repository});
+
+  final DatabaseRepository repository;
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return  MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: QuoteScreen(),
+      home: QuoteScreen(repository: repository,),
     );
   }
 }
