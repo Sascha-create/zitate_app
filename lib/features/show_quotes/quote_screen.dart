@@ -28,7 +28,7 @@ class QuoteScreen extends StatefulWidget {
 }
 
 class _QuoteScreenState extends State<QuoteScreen> {
-  String quote = "Noch kein Zitat geladen";
+  String quote = "";
 
   @override
   void initState() {
@@ -72,7 +72,15 @@ class _QuoteScreenState extends State<QuoteScreen> {
                     onPressed: () {
                       getNewQuote();
                     },
-                    child: const Text("Nächstes Zitat"))
+                    child: const Text("Nächstes Zitat")),
+                ElevatedButton(
+                    onPressed: () {
+                      quote = 'Zitat gelöscht';
+                      setState(() {
+                        
+                      });
+                    },
+                    child: const Text("Zitat löschen")),
               ],
             ),
           ),
