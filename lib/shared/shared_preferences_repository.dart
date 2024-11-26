@@ -13,7 +13,7 @@ class SharedPreferencesRepository implements DatabaseRepository {
 
   @override
   Future<String> getSavedQuote() async {
-    String quote = await prefs.getString("lastQuote") ?? "Kein Zitat vorhanden";
+    String quote = await prefs.getString("lastQuote") ?? "Kein Zitat gefunden";
     return quote;
   }
 }

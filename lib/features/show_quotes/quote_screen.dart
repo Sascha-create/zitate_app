@@ -4,21 +4,14 @@ import 'package:http/http.dart' as http;
 import 'package:zitate_app/api_key.dart';
 import 'package:zitate_app/shared/database_repository.dart';
 
-
-
 const quoteUri = "https://api.api-ninjas.com/v1/quotes";
 
-Future<String> getDataFromApi(String uri) async {
-  final response =
-      await http.get(Uri.parse(uri), headers: {'X-Api-Key': myXApiKey});
-
-  return response.body;
-}
-
 Future<String> getQuote() async {
-  final jsonString = await getDataFromApi(quoteUri);
+  final response =
+      await http.get(Uri.parse(quoteUri), headers: {'X-Api-Key': myXApiKey});
+  final jsonData = response.body;
 
-  final jsonObject = jsonDecode(jsonString);
+  final jsonObject = jsonDecode(jsonData);
 
   final String quote = jsonObject[0]["quote"];
 
@@ -37,9 +30,21 @@ class QuoteScreen extends StatefulWidget {
 class _QuoteScreenState extends State<QuoteScreen> {
   String quote = "Noch kein Zitat geladen";
 
+  @override
+  void initState() {
+    super.initState();
+    getLastQuote();
+  }
+
+  void getLastQuote() async {
+    String savedQuote = await widget.repository.getSavedQuote();
+    quote = savedQuote;
+    setState(() {});
+  }
+
   void getNewQuote() async {
     quote = await getQuote();
-    
+    widget.repository.saveQuote(quote);
     setState(() {});
   }
 
