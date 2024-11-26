@@ -6,17 +6,17 @@ import 'package:zitate_app/shared/database_repository.dart';
 
 const quoteUri = "https://api.api-ninjas.com/v1/quotes";
 
-Future<String> getQuote() async {
-  final response =
-      await http.get(Uri.parse(quoteUri), headers: {'X-Api-Key': myXApiKey});
-  final jsonData = response.body;
+// Future<String> getQuote() async {
+//   final response =
+//       await http.get(Uri.parse(quoteUri), headers: {'X-Api-Key': myXApiKey});
+//   final jsonData = response.body;
 
-  final jsonObject = jsonDecode(jsonData);
+//   final jsonObject = jsonDecode(jsonData);
 
-  final String quote = jsonObject[0]["quote"];
+//   final String quote = jsonObject[0]["quote"];
 
-  return quote;
-}
+//   return quote;
+// }
 
 class QuoteScreen extends StatefulWidget {
   const QuoteScreen({super.key, required this.repository});
@@ -29,6 +29,20 @@ class QuoteScreen extends StatefulWidget {
 
 class _QuoteScreenState extends State<QuoteScreen> {
   String quote = "";
+  TextEditingController categoryController = TextEditingController();
+  String actualUri = quoteUri;
+
+  Future<String> getQuote(String uri) async {
+    final response =
+        await http.get(Uri.parse(uri), headers: {'X-Api-Key': myXApiKey});
+    final jsonData = response.body;
+
+    final jsonObject = jsonDecode(jsonData);
+
+    final String quote = jsonObject[0]["quote"];
+
+    return quote;
+  }
 
   @override
   void initState() {
@@ -43,13 +57,16 @@ class _QuoteScreenState extends State<QuoteScreen> {
   }
 
   void getNewQuote() async {
-    quote = await getQuote();
+    quote = await getQuote(actualUri);
     widget.repository.saveQuote(quote);
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+    Category anger = Category(
+        name: 'Anger',
+        uri: 'https://api.api-ninjas.com/v1/quotes?category=food');
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -64,6 +81,21 @@ class _QuoteScreenState extends State<QuoteScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                DropdownMenu(
+                    onSelected: (value) {
+                      setState(() {
+                        actualUri = value;
+                      });
+                    },
+                    controller: categoryController,
+                    width: double.infinity,
+                    label: const Text('Kategorien'),
+                    dropdownMenuEntries: <DropdownMenuEntry<dynamic>>[
+                      DropdownMenuEntry(
+                        value: anger.uri,
+                        label: 'Anger',
+                      )
+                    ]),
                 SizedBox(height: 240, child: Text(quote)),
                 const SizedBox(
                   height: 16,
@@ -73,6 +105,9 @@ class _QuoteScreenState extends State<QuoteScreen> {
                       getNewQuote();
                     },
                     child: const Text("Nächstes Zitat")),
+                const SizedBox(
+                  height: 8,
+                ),
                 ElevatedButton(
                     onPressed: () {
                       widget.repository.deleteSavedQuote();
@@ -88,4 +123,11 @@ class _QuoteScreenState extends State<QuoteScreen> {
       ),
     );
   }
+}
+
+class Category {
+  final String name;
+  final String uri;
+
+  Category({required this.name, required this.uri});
 }
