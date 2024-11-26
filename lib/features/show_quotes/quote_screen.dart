@@ -75,9 +75,9 @@ class _QuoteScreenState extends State<QuoteScreen> {
                     child: const Text("Nächstes Zitat")),
                 ElevatedButton(
                     onPressed: () {
-                      quote = 'Zitat gelöscht';
+                      widget.repository.deleteSavedQuote();
                       setState(() {
-                        
+                        quote = 'Zitat gelöscht';
                       });
                     },
                     child: const Text("Zitat löschen")),
