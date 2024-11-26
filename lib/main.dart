@@ -4,6 +4,8 @@ import 'package:zitate_app/features/show_quotes/quote_screen.dart';
 import 'package:zitate_app/shared/database_repository.dart';
 import 'package:zitate_app/shared/shared_preferences_repository.dart';
 
+// git ignore test
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
