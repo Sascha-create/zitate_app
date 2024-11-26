@@ -2,21 +2,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:zitate_app/api_key.dart';
+import 'package:zitate_app/features/show_quotes/category.dart';
 import 'package:zitate_app/shared/database_repository.dart';
 
 const quoteUri = "https://api.api-ninjas.com/v1/quotes";
-
-// Future<String> getQuote() async {
-//   final response =
-//       await http.get(Uri.parse(quoteUri), headers: {'X-Api-Key': myXApiKey});
-//   final jsonData = response.body;
-
-//   final jsonObject = jsonDecode(jsonData);
-
-//   final String quote = jsonObject[0]["quote"];
-
-//   return quote;
-// }
 
 class QuoteScreen extends StatefulWidget {
   const QuoteScreen({super.key, required this.repository});
@@ -66,6 +55,18 @@ class _QuoteScreenState extends State<QuoteScreen> {
   Widget build(BuildContext context) {
     Category anger = Category(
         name: 'Anger',
+        uri: 'https://api.api-ninjas.com/v1/quotes?category=anger');
+    Category beauty = Category(
+        name: 'Beauty',
+        uri: 'https://api.api-ninjas.com/v1/quotes?category=beauty');
+    Category car = Category(
+        name: 'Beauty',
+        uri: 'https://api.api-ninjas.com/v1/quotes?category=car');
+    Category computers = Category(
+        name: 'Beauty',
+        uri: 'https://api.api-ninjas.com/v1/quotes?category=computers');
+    Category food = Category(
+        name: 'Beauty',
         uri: 'https://api.api-ninjas.com/v1/quotes?category=food');
     return MaterialApp(
       home: Scaffold(
@@ -94,7 +95,23 @@ class _QuoteScreenState extends State<QuoteScreen> {
                       DropdownMenuEntry(
                         value: anger.uri,
                         label: 'Anger',
-                      )
+                      ),
+                      DropdownMenuEntry(
+                        value: beauty.uri,
+                        label: 'Beauty',
+                      ),
+                      DropdownMenuEntry(
+                        value: car.uri,
+                        label: 'Car',
+                      ),
+                      DropdownMenuEntry(
+                        value: computers.uri,
+                        label: 'Computers',
+                      ),
+                      DropdownMenuEntry(
+                        value: food.uri,
+                        label: 'Food',
+                      ),
                     ]),
                 SizedBox(height: 240, child: Text(quote)),
                 const SizedBox(
@@ -123,11 +140,4 @@ class _QuoteScreenState extends State<QuoteScreen> {
       ),
     );
   }
-}
-
-class Category {
-  final String name;
-  final String uri;
-
-  Category({required this.name, required this.uri});
 }
