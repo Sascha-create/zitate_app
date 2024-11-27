@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:zitate_app/api_key.dart';
 import 'package:zitate_app/features/show_quotes/category.dart';
+import 'package:zitate_app/features/show_quotes/quote.dart';
 import 'package:zitate_app/shared/database_repository.dart';
 
 const quoteUri = "https://api.api-ninjas.com/v1/quotes";
@@ -34,9 +35,38 @@ class _QuoteScreenState extends State<QuoteScreen> {
     return quote;
   }
 
+  Future<String> getDataFromApi(String uri) async {
+    final response =
+        await http.get(Uri.parse(uri), headers: {'X-Api-Key': myXApiKey});
+    return response.body;
+  }
+
+// [
+//   {
+//     "quote": "If we as a society are willing to have a preference for organic food, the farmer can pass on the savings.",
+//     "author": "Robert Patterson",
+//     "category": "food"
+//   }
+// ]
+
+  Future<Quote> getQuoteObject() async {
+    final jsonData = await getDataFromApi(quoteUri);
+    final decodedJson = jsonDecode(jsonData);
+
+    final quote = decodedJson[0]["quote"];
+    final author = decodedJson[0]["author"];
+    final category = decodedJson[0]["category"];
+
+    final Quote quoteObject =
+        Quote(quote: quote, author: author, category: category);
+
+    return quoteObject;
+  }
+
   @override
   void initState() {
     super.initState();
+    getLastCategory();
     getLastQuote();
   }
 
@@ -52,6 +82,20 @@ class _QuoteScreenState extends State<QuoteScreen> {
     setState(() {});
   }
 
+  void getLastCategory() async {
+    String savedCategory = await widget.repository.getSavedCategory();
+    actualCategory = savedCategory;
+    setState(() {});
+  }
+
+  Quote actualQuoteObject =
+      Quote(quote: 'quote', author: 'author', category: 'category');
+  void getNewQuoteObject() async {
+    Quote quoteObject = await getQuoteObject();
+    actualQuoteObject = quoteObject;
+  }
+
+  String actualCategory = 'https://api.api-ninjas.com/v1/quotes';
   @override
   Widget build(BuildContext context) {
     Category allCategories = Category(
@@ -86,7 +130,7 @@ class _QuoteScreenState extends State<QuoteScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 DropdownMenu(
-                    initialSelection: allCategories.uri,
+                    initialSelection: actualCategory,
                     leadingIcon: IconButton(
                         onPressed: () {
                           actualUri = allCategories.uri;
@@ -95,6 +139,8 @@ class _QuoteScreenState extends State<QuoteScreen> {
                         },
                         icon: const Icon(Icons.delete_forever)),
                     onSelected: (value) async {
+                      actualCategory = value;
+                      widget.repository.saveCategory(actualCategory);
                       setState(() {
                         actualUri = value;
                       });
@@ -135,6 +181,7 @@ class _QuoteScreenState extends State<QuoteScreen> {
                 ElevatedButton(
                     onPressed: () {
                       getNewQuote();
+                      
                     },
                     child: const Text("Nächstes Zitat")),
                 const SizedBox(
