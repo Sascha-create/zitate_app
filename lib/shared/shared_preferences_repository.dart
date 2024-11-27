@@ -21,4 +21,17 @@ class SharedPreferencesRepository implements DatabaseRepository {
   Future<void> deleteSavedQuote() async {
     await prefs.remove(lastQuote);
   }
+
+  @override
+  Future<void> saveCategory(String category) async {
+    await prefs.setString('category', category);
+  }
+  
+  @override
+  Future<String> getSavedCategory() async {
+    String category = await prefs.getString('category') ?? "Keine Kategorie gespeichert";
+    return category;
+  }
+  
+  
 }

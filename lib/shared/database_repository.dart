@@ -4,4 +4,8 @@ abstract class DatabaseRepository {
   Future<String> getSavedQuote();
 
   Future<void> deleteSavedQuote();
+
+    Future<void> saveCategory(String category);
+
+  Future<String> getSavedCategory();
 }
