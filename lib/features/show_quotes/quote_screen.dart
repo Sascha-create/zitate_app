@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:zitate_app/api_key.dart';
@@ -53,6 +54,8 @@ class _QuoteScreenState extends State<QuoteScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Category allCategories = Category(
+        name: 'Alle Kategorien', uri: 'https://api.api-ninjas.com/v1/quotes');
     Category anger = Category(
         name: 'Anger',
         uri: 'https://api.api-ninjas.com/v1/quotes?category=anger');
@@ -60,14 +63,14 @@ class _QuoteScreenState extends State<QuoteScreen> {
         name: 'Beauty',
         uri: 'https://api.api-ninjas.com/v1/quotes?category=beauty');
     Category car = Category(
-        name: 'Beauty',
-        uri: 'https://api.api-ninjas.com/v1/quotes?category=car');
+        name: 'Car', uri: 'https://api.api-ninjas.com/v1/quotes?category=car');
     Category computers = Category(
-        name: 'Beauty',
+        name: 'Computers',
         uri: 'https://api.api-ninjas.com/v1/quotes?category=computers');
     Category food = Category(
-        name: 'Beauty',
+        name: 'Food',
         uri: 'https://api.api-ninjas.com/v1/quotes?category=food');
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -83,34 +86,46 @@ class _QuoteScreenState extends State<QuoteScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 DropdownMenu(
-                    onSelected: (value) {
+                    initialSelection: allCategories.uri,
+                    leadingIcon: IconButton(
+                        onPressed: () {
+                          actualUri = allCategories.uri;
+                          categoryController.clear();
+                          setState(() {});
+                        },
+                        icon: const Icon(Icons.delete_forever)),
+                    onSelected: (value) async {
                       setState(() {
                         actualUri = value;
                       });
                     },
                     controller: categoryController,
                     width: double.infinity,
-                    label: const Text('Kategorien'),
+                    label: const Text('Kategorie wählen'),
                     dropdownMenuEntries: <DropdownMenuEntry<dynamic>>[
                       DropdownMenuEntry(
+                        value: allCategories.uri,
+                        label: allCategories.name,
+                      ),
+                      DropdownMenuEntry(
                         value: anger.uri,
-                        label: 'Anger',
+                        label: anger.name,
                       ),
                       DropdownMenuEntry(
                         value: beauty.uri,
-                        label: 'Beauty',
+                        label: beauty.name,
                       ),
                       DropdownMenuEntry(
                         value: car.uri,
-                        label: 'Car',
+                        label: car.name,
                       ),
                       DropdownMenuEntry(
                         value: computers.uri,
-                        label: 'Computers',
+                        label: computers.name,
                       ),
                       DropdownMenuEntry(
                         value: food.uri,
-                        label: 'Food',
+                        label: food.name,
                       ),
                     ]),
                 SizedBox(height: 240, child: Text(quote)),
