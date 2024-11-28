@@ -1,8 +1,9 @@
 import 'dart:convert';
-import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:zitate_app/api_key.dart';
+import 'package:zitate_app/config/colors.dart';
 import 'package:zitate_app/features/show_quotes/category.dart';
 import 'package:zitate_app/features/show_quotes/quote.dart';
 import 'package:zitate_app/shared/database_repository.dart';
@@ -118,19 +119,21 @@ class _QuoteScreenState extends State<QuoteScreen> {
 
     return MaterialApp(
       home: Scaffold(
+        backgroundColor: timberWolf,
         appBar: AppBar(
-          backgroundColor: Colors.purple.shade800,
-          title: const Text("Zitate App"),
-          titleTextStyle: const TextStyle(
-              color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold),
+          backgroundColor: outerSpace,
+          title: const Text(
+              style: TextStyle(color: timberWolf, fontSize: 34), "Zitate App"),
         ),
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(24.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 DropdownMenu(
+                    menuStyle: const MenuStyle(
+                        backgroundColor: WidgetStatePropertyAll(timberWolf)),
                     initialSelection: actualCategory,
                     leadingIcon: IconButton(
                         onPressed: () {
@@ -175,26 +178,48 @@ class _QuoteScreenState extends State<QuoteScreen> {
                         label: food.name,
                       ),
                     ]),
-                SizedBox(height: 240, child: Text(quote)),
                 const SizedBox(
                   height: 16,
                 ),
-                ElevatedButton(
-                    onPressed: () {
-                      getNewQuote();
-                    },
-                    child: const Text("Nächstes Zitat")),
+                SizedBox(
+                    height: 320,
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.titleLarge,
+                          quote),
+                    )),
                 const SizedBox(
-                  height: 8,
+                  height: 160,
                 ),
-                ElevatedButton(
-                    onPressed: () {
-                      widget.repository.deleteSavedQuote();
-                      setState(() {
-                        quote = 'Zitat gelöscht';
-                      });
-                    },
-                    child: const Text("Zitat löschen")),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton.outlined(
+                      onPressed: () {
+                        getNewQuote();
+                      },
+                      icon: const Icon(Icons.switch_access_shortcut_rounded),
+                      iconSize: 48,
+                    ),
+                    const SizedBox(
+                      width: 48,
+                    ),
+                    IconButton.outlined(
+                      onPressed: () {
+                        widget.repository.deleteSavedQuote();
+                        setState(() {
+                          quote = 'Zitat gelöscht';
+                        });
+                      },
+                      icon: const Icon(Icons.close),
+                      color: thistle,
+                      iconSize: 48,
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
