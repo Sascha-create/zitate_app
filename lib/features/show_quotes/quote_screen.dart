@@ -85,6 +85,7 @@ class _QuoteScreenState extends State<QuoteScreen> {
   void getLastCategory() async {
     String savedCategory = await widget.repository.getSavedCategory();
     actualCategory = savedCategory;
+    actualUri = savedCategory;
     setState(() {});
   }
 
@@ -142,7 +143,7 @@ class _QuoteScreenState extends State<QuoteScreen> {
                       actualCategory = value;
                       widget.repository.saveCategory(actualCategory);
                       setState(() {
-                        actualUri = value;
+                        actualUri = actualCategory;
                       });
                     },
                     controller: categoryController,
@@ -181,7 +182,6 @@ class _QuoteScreenState extends State<QuoteScreen> {
                 ElevatedButton(
                     onPressed: () {
                       getNewQuote();
-                      
                     },
                     child: const Text("Nächstes Zitat")),
                 const SizedBox(
