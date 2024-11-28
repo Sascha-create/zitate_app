@@ -36,6 +36,9 @@ class _QuoteScreenState extends State<QuoteScreen> {
     return quote;
   }
 
+  //------------------------------------------------------------------
+  // Für weitere Versuche
+
   Future<String> getDataFromApi(String uri) async {
     final response =
         await http.get(Uri.parse(uri), headers: {'X-Api-Key': myXApiKey});
@@ -56,6 +59,13 @@ class _QuoteScreenState extends State<QuoteScreen> {
     return quoteObject;
   }
 
+   Quote actualQuoteObject =
+      Quote(quote: 'quote', author: 'author', category: 'category');
+  void getNewQuoteObject() async {
+    Quote quoteObject = await getQuoteObject();
+    actualQuoteObject = quoteObject;
+  }
+//--------------------------------------------------------------------
   @override
   void initState() {
     super.initState();
@@ -82,12 +92,7 @@ class _QuoteScreenState extends State<QuoteScreen> {
     setState(() {});
   }
 
-  Quote actualQuoteObject =
-      Quote(quote: 'quote', author: 'author', category: 'category');
-  void getNewQuoteObject() async {
-    Quote quoteObject = await getQuoteObject();
-    actualQuoteObject = quoteObject;
-  }
+ 
 
   String actualCategory = 'https://api.api-ninjas.com/v1/quotes';
   @override
