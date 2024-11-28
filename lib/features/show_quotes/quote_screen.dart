@@ -42,13 +42,6 @@ class _QuoteScreenState extends State<QuoteScreen> {
     return response.body;
   }
 
-// [
-//   {
-//     "quote": "If we as a society are willing to have a preference for organic food, the farmer can pass on the savings.",
-//     "author": "Robert Patterson",
-//     "category": "food"
-//   }
-// ]
 
   Future<Quote> getQuoteObject() async {
     final jsonData = await getDataFromApi(quoteUri);
