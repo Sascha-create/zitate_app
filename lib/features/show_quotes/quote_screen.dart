@@ -59,12 +59,13 @@ class _QuoteScreenState extends State<QuoteScreen> {
     return quoteObject;
   }
 
-   Quote actualQuoteObject =
+  Quote actualQuoteObject =
       Quote(quote: 'quote', author: 'author', category: 'category');
   void getNewQuoteObject() async {
     Quote quoteObject = await getQuoteObject();
     actualQuoteObject = quoteObject;
   }
+
 //--------------------------------------------------------------------
   @override
   void initState() {
@@ -91,8 +92,6 @@ class _QuoteScreenState extends State<QuoteScreen> {
     actualUri = savedCategory;
     setState(() {});
   }
-
- 
 
   String actualCategory = 'https://api.api-ninjas.com/v1/quotes';
   @override
@@ -138,7 +137,7 @@ class _QuoteScreenState extends State<QuoteScreen> {
                           categoryController.clear();
                           setState(() {});
                         },
-                        icon: const Icon(Icons.delete_forever)),
+                        icon: const Icon(Icons.cancel_outlined)),
                     onSelected: (value) async {
                       actualCategory = value;
                       widget.repository.saveCategory(actualCategory);
