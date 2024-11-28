@@ -42,7 +42,6 @@ class _QuoteScreenState extends State<QuoteScreen> {
     return response.body;
   }
 
-
   Future<Quote> getQuoteObject() async {
     final jsonData = await getDataFromApi(quoteUri);
     final decodedJson = jsonDecode(jsonData);
@@ -120,7 +119,7 @@ class _QuoteScreenState extends State<QuoteScreen> {
         ),
         body: Center(
           child: Padding(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.all(32.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -143,7 +142,7 @@ class _QuoteScreenState extends State<QuoteScreen> {
                       });
                     },
                     controller: categoryController,
-                    width: double.infinity,
+                    width: 340,
                     label: const Text('Kategorie wählen'),
                     dropdownMenuEntries: <DropdownMenuEntry<dynamic>>[
                       DropdownMenuEntry(
