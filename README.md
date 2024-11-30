@@ -12,4 +12,4 @@ Aufgabe war:
 
  ## Als Bonusaufgabe
 
- Das Dropdownmenü über das man Kategorien wählen kann die ebenfalls in den Shared Preferences gespeichert werden.
+ Das Dropdownmenü, über das man Kategorien wählen kann, die ebenfalls in den Shared Preferences gespeichert werden.
