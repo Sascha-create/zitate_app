@@ -7,7 +7,7 @@
 Aufgabe war:
 
  - API Abfragen zu verstehen und zu nutzen
- - Shared Preferences zu nutzen und das Wissen zu festigen
+ - Shared Preferences zu nutzen und das darüber Wissen zu festigen
  
 
  ## Als Bonusaufgabe
