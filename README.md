@@ -1,6 +1,6 @@
 # zitate_app
 
-<img src="screenshots/screenshot_app.png" width="200" />
+<img src="screenshots/screenshot_app.png" width="300" />
 
 ## Eine kleine App die Zitate anzeigt und das Zitat über einen Neustart der App hinweg speichert.
 
